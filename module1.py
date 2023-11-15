@@ -1,6 +1,6 @@
 import pygame
 import sys
-
+import jarvis as j
 # Initialize Pygame
 pygame.init()
 
@@ -39,8 +39,9 @@ def main_menu():
         pygame.draw.rect(screen, WHITE, intersect_button)
         pygame.draw.rect(screen, WHITE, convex_button)
 
-        draw_text("INTERSECTING LINE SEGMENTS", small_font, BLACK, intersect_button.x + 10, intersect_button.y + 15)
-        draw_text("CONVEX HULL SOLUTION", small_font, BLACK, convex_button.x + 10, convex_button.y + 15)
+        
+        draw_text("INTERSECTING LINE SEGMENTS", small_font, BLACK, intersect_button.x + 20, intersect_button.y + 30)
+        draw_text("CONVEX HULL SOLUTION", small_font, BLACK, convex_button.x + 20, convex_button.y + 30)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -52,6 +53,10 @@ def main_menu():
                     intersect_menu()
                 elif convex_button.collidepoint(event.pos):
                     convex_menu()
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_BACKSPACE:
+                    return  # return from main_menu function to exit the loop and go back to the main loop
 
         pygame.display.update()
 
@@ -82,6 +87,10 @@ def intersect_menu():
                     # Implement actions for method 2
                     pass  # Placeholder for now
 
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_BACKSPACE:
+                    return  # return from intersect_menu function to exit the loop and go back to the main_menu loop
+
         pygame.display.update()
 
 def convex_menu():
@@ -110,13 +119,19 @@ def convex_menu():
                         if i == 0:
                             pass  # Placeholder for brute force
                         elif i == 1:
-                            pass  # Placeholder for Jarvis March
+                            screen.fill(BLACK)
+                            j.jarvis(screen)
+                           # pass  # Placeholder for Jarvis March
                         elif i == 2:
                             pass  # Placeholder for Graham Scan
                         elif i == 3:
                             pass  # Placeholder for Quick Elimination
                         elif i == 4:
                             pass  # Placeholder for Research
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_BACKSPACE:
+                    return  # return from convex_menu function to exit the loop and go back to the main_menu loop
 
         pygame.display.update()
 
