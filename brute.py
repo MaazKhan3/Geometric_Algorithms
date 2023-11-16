@@ -78,5 +78,3 @@ def brute_force(screen):
         # Find and draw convex hull using brute force in real-time
         convex_hull.find_convex_hull_bruteforce(screen)
         pygame.display.flip()
-
-#brute_force(pygame.display.set_mode((1366, 768)))

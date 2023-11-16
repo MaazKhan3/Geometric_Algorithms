@@ -3,7 +3,8 @@ import sys
 import jarvis as j
 import graham as g
 import brute as b
-#import chan as c
+import chan as c
+import quick as q
 
 # Initialize Pygame
 pygame.init()
@@ -125,7 +126,7 @@ def convex_menu():
                         if i == 0:
                             screen.fill(BLACK)
                             b.brute_force(screen)
-                            pass  # Placeholder for brute force
+                            #pass  # Placeholder for brute force
                         elif i == 1:
                             screen.fill(BLACK)
                             j.jarvis(screen)
@@ -135,10 +136,12 @@ def convex_menu():
                             g.graham(screen)
                             #pass  # Placeholder for Graham Scan
                         elif i == 3:
-                            pass  # Placeholder for Quick Elimination
+                            screen.fill(BLACK)
+                            q.quick_elimination(screen)
+                            #pass  # Placeholder for Quick Elimination
                         elif i == 4:
                             screen.fill(BLACK)
-                            #c.convexHull(points, len(points), screen)
+                            c.chan(screen)
                             #pass  # Placeholder for Chan Algorithm
 
             if event.type == pygame.KEYDOWN:
