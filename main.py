@@ -1,6 +1,10 @@
 import pygame
 import sys
 import jarvis as j
+import graham as g
+import brute as b
+#import chan as c
+
 # Initialize Pygame
 pygame.init()
 
@@ -13,6 +17,8 @@ PADDING = 20
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 GRAY = (150, 150, 150)
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
 
 # Set up the display
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -98,7 +104,7 @@ def convex_menu():
         screen.fill(BLACK)
         draw_text("Choose Method for Convex Hull", font, WHITE, 50, 50)
 
-        methods = ["BRUTE FORCE", "JARVIS MARCH", "GRAHAM SCAN", "QUICK ELIMINATION", "RESEARCH"]
+        methods = ["BRUTE FORCE", "JARVIS MARCH", "GRAHAM SCAN", "QUICK ELIMINATION", "CHAN'S ALGORITHM"]
         buttons = []
 
         for i, method in enumerate(methods):
@@ -117,17 +123,23 @@ def convex_menu():
                     if button.collidepoint(event.pos):
                         # Implement actions for each method
                         if i == 0:
+                            screen.fill(BLACK)
+                            b.brute_force(screen)
                             pass  # Placeholder for brute force
                         elif i == 1:
                             screen.fill(BLACK)
                             j.jarvis(screen)
                            # pass  # Placeholder for Jarvis March
                         elif i == 2:
-                            pass  # Placeholder for Graham Scan
+                            screen.fill(BLACK)
+                            g.graham(screen)
+                            #pass  # Placeholder for Graham Scan
                         elif i == 3:
                             pass  # Placeholder for Quick Elimination
                         elif i == 4:
-                            pass  # Placeholder for Research
+                            screen.fill(BLACK)
+                            #c.convexHull(points, len(points), screen)
+                            #pass  # Placeholder for Chan Algorithm
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE:

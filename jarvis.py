@@ -72,7 +72,7 @@ def jarvis(screen):
     # Create points
     #points = [po.Point(500, 300), po.Point(400, 400), po.Point(300, 100), po.Point(200, 200), po.Point(300, 220), po.Point(50, 50), po.Point(300, 300)]
     points = []
-    for a in range (0,10):
+    for a in range (0,20):
         points.append(po.Point(r.randint(100, 768-100),r.randint(100, 768-100)))
 
 
