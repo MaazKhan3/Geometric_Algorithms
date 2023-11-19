@@ -1,6 +1,14 @@
 import pygame
 import random
-import point as po
+
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.radius = 6
+
+    def draw(self, screen, color=(255, 255, 255)):
+        pygame.draw.circle(screen, color, (self.x, self.y), self.radius)
 
 class QuickHull:
     def __init__(self, points):
@@ -109,7 +117,7 @@ def quick_hull(screen):
 
     # Create random points
     num_points = 20
-    points = [po.Point(random.randint(50, 750), random.randint(50, 550)) for _ in range(num_points)]
+    points = [Point(random.randint(50, 750), random.randint(50, 550)) for _ in range(num_points)]
 
     # Create QuickHull object
     quick_hull_instance = QuickHull(points)
