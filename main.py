@@ -4,7 +4,7 @@ import jarvis as j
 import graham as g
 import brute as b
 import chan as c
-import quick as q
+#import quick as q
 
 # Initialize Pygame
 pygame.init()
@@ -16,7 +16,7 @@ PADDING = 20
 
 # Colors
 BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
+WHITE = (61,12,7)
 GRAY = (150, 150, 150)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
@@ -26,10 +26,11 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Algorithm Menu")
 
 # Fonts
-font = pygame.font.Font(None, 36)
-small_font = pygame.font.Font(None, 24)
+font = pygame.font.Font("Blackiron.ttf", 36)
+small_font = pygame.font.Font("Blackiron.ttf", 24)
 
 def draw_text(text, font, color, x, y):
+    color = (216,0,50)
     text_surface = font.render(text, True, color)
     text_rect = text_surface.get_rect()
     text_rect.topleft = (x, y)
@@ -37,9 +38,9 @@ def draw_text(text, font, color, x, y):
 
 def main_menu():
     while True:
-        screen.fill(BLACK)
-        draw_text("DESIGN AND ANALYSIS OF ALGORITHMS", font, WHITE, 50, 50)
-
+        screen.fill((61,12,7))
+        draw_text("DESIGN AND ANALYSIS OF ALGORITHMS", font, WHITE, 450,60)
+        print(pygame.mouse.get_pos())
         intersect_button = pygame.Rect(WIDTH // 2 - BUTTON_WIDTH // 2, 200, BUTTON_WIDTH, BUTTON_HEIGHT)
         convex_button = pygame.Rect(WIDTH // 2 - BUTTON_WIDTH // 2, 300, BUTTON_WIDTH, BUTTON_HEIGHT)
 
@@ -69,7 +70,7 @@ def main_menu():
 
 def intersect_menu():
     while True:
-        screen.fill(BLACK)
+        screen.fill((61,12,7))
         draw_text("Choose Method for Line Segments", font, WHITE, 50, 50)
 
         method1_button = pygame.Rect(WIDTH // 2 - BUTTON_WIDTH // 2, 200, BUTTON_WIDTH, BUTTON_HEIGHT)
@@ -102,7 +103,8 @@ def intersect_menu():
 
 def convex_menu():
     while True:
-        screen.fill(BLACK)
+        screen.fill((61,12,7))
+        
         draw_text("Choose Method for Convex Hull", font, WHITE, 50, 50)
 
         methods = ["BRUTE FORCE", "JARVIS MARCH", "GRAHAM SCAN", "QUICK ELIMINATION", "CHAN'S ALGORITHM"]
@@ -112,7 +114,7 @@ def convex_menu():
             button = pygame.Rect(WIDTH // 2 - BUTTON_WIDTH // 2, 150 + (i * (BUTTON_HEIGHT + PADDING)), BUTTON_WIDTH, BUTTON_HEIGHT)
             buttons.append(button)
             pygame.draw.rect(screen, WHITE, button)
-            draw_text(method, small_font, BLACK, button.x + 10, button.y + 15)
+            draw_text(method, small_font, (61,12,7), button.x + 10, button.y + 15)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -124,25 +126,25 @@ def convex_menu():
                     if button.collidepoint(event.pos):
                         # Implement actions for each method
                         if i == 0:
-                            screen.fill(BLACK)
+                            screen.fill((61,12,7))
                             b.brute_force(screen)
-                            #pass  # Placeholder for brute force
+                            pass  # Placeholder for brute force
                         elif i == 1:
-                            screen.fill(BLACK)
+                            screen.fill((61,12,7))
                             j.jarvis(screen)
-                           # pass  # Placeholder for Jarvis March
+                            pass  # Placeholder for Jarvis March
                         elif i == 2:
-                            screen.fill(BLACK)
+                            screen.fill((61,12,7))
                             g.graham(screen)
-                            #pass  # Placeholder for Graham Scan
+                            pass  # Placeholder for Graham Scan
                         elif i == 3:
-                            screen.fill(BLACK)
-                            q.quick_elimination(screen)
-                            #pass  # Placeholder for Quick Elimination
+                            screen.fill((61,12,7))
+                            #q.quick_hull(screen)
+                            pass  # Placeholder for Quick Elimination
                         elif i == 4:
-                            screen.fill(BLACK)
+                            screen.fill((61,12,7))
                             c.chan(screen)
-                            #pass  # Placeholder for Chan Algorithm
+                            pass  # Placeholder for Chan Algorithm
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE:

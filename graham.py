@@ -1,4 +1,3 @@
-from functools import cmp_to_key
 import pygame
 import random as r
 import math
@@ -9,7 +8,7 @@ class GrahamConvexHull:
         self.points = points
         self.screen = None
 
-    def graham(self):
+    def graham_scan(self):
         pygame.init()
 
         n = len(self.points)
@@ -31,13 +30,13 @@ class GrahamConvexHull:
         # Sort the rest of the points based on polar angle in
         # counterclockwise order from the bottom-most point
         p0 = self.points[0]
-        self.points = sorted(self.points[1:], key=lambda p: math.atan2(p.y - p0.y, p.x - p0.x))
+        self.points = [p0] + sorted(self.points[1:], key=lambda p: (math.atan2(p.y - p0.y, p.x - p0.x), p.y, p.x))
 
         hull.append(self.points[0])
         hull.append(self.points[1])
 
         for i in range(2, n):
-            while len(hull) > 0 and self.orientation(hull[-2], hull[-1], self.points[i]) != 2:
+            while len(hull) > 1 and self.orientation(hull[-2], hull[-1], self.points[i]) != 2:
                 hull.pop()
             hull.append(self.points[i])
 
@@ -70,20 +69,19 @@ class GrahamConvexHull:
         else:
             return 2  # counterclockwise
 
+
 def graham(screen):
+    pygame.init()
     # Create points
-    points = [po.Point(r.randint(100, 768 - 100), r.randint(100, 768 - 100)) for _ in range(20)]
+    points = [po.Point(r.randint(100, 768), r.randint(100, 768)) for _ in range(20)]
 
     graham_hull = GrahamConvexHull(points)
     graham_hull.screen = screen
 
-    # Draw convex hull using Graham's Scan
-    graham_hull.graham()
+    graham_hull.graham_scan()
 
-# Uncomment the following lines if you want to run the graham module independently
-# width = 1366
-# height = 768
-# screen = pygame.display.set_mode((width, height))
-# pygame.display.set_caption("Graham's Scan Visualization")
-# graham(screen)
-# pygame.quit()
+    graham(screen)
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()

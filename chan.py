@@ -68,7 +68,7 @@ def chan(screen):
             if event.type == pygame.QUIT:
                 running = False
 
-        screen.fill((0, 0, 0))
+        #screen.fill((0, 0, 0))
 
         for point in points:
             point.draw(screen)

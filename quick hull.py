@@ -1,13 +1,19 @@
 import pygame
 import sys
 import random
-import point as po
 
 # Define colors
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
+
+# Pygame initialization
+pygame.init()
+screen_size = (800, 600)
+screen = pygame.display.set_mode(screen_size)
+pygame.display.set_caption('QuickHull Visualization')
+clock = pygame.time.Clock()
 
 class Point:
     def __init__(self, x, y):
@@ -73,7 +79,7 @@ class QuickHull:
         points_right = [point for point in points if self.orientation(farthest_point, p2, point) == 1]
 
         # Draw the current step
-        self.draw_hull_lines(screen, color=BLUE)
+        self.draw_hull_lines(screen, color=WHITE)
         farthest_point.draw(color=RED)
         pygame.display.flip()
         clock.tick(1)  # Adjust the speed of visualization
@@ -82,7 +88,7 @@ class QuickHull:
         self.find_hull_recursive(p1, farthest_point, points_left)
         self.find_hull_recursive(farthest_point, p2, points_right)
 
-    def draw_hull_lines(self, screen, color=GREEN):
+    def draw_hull_lines(self, screen, color=WHITE):
         if len(self.hull) > 1:
             for i in range(len(self.hull) - 1):
                 self.draw_line(screen, self.hull[i], self.hull[i + 1], color)
