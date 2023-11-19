@@ -4,7 +4,7 @@ import jarvis as j
 import graham as g
 import brute as b
 import chan as c
-#import quick as q
+import quick as q
 
 # Initialize Pygame
 pygame.init()
@@ -139,7 +139,7 @@ def convex_menu():
                             pass  # Placeholder for Graham Scan
                         elif i == 3:
                             screen.fill((61,12,7))
-                            #q.quick_hull(screen)
+                            q.quick_hull(screen)
                             pass  # Placeholder for Quick Elimination
                         elif i == 4:
                             screen.fill((61,12,7))

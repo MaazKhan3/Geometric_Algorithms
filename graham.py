@@ -9,15 +9,10 @@ class GrahamConvexHull:
         self.screen = None
 
     def graham_scan(self):
-        pygame.init()
-
-        n = len(self.points)
-        hull = []
-
         # Find the bottommost point
         ymin = self.points[0].y
         min_index = 0
-        for i in range(1, n):
+        for i in range(1, len(self.points)):
             y = self.points[i].y
             if ((y < ymin) or
                     (ymin == y and self.points[i].x < self.points[min_index].x)):
@@ -32,10 +27,9 @@ class GrahamConvexHull:
         p0 = self.points[0]
         self.points = [p0] + sorted(self.points[1:], key=lambda p: (math.atan2(p.y - p0.y, p.x - p0.x), p.y, p.x))
 
-        hull.append(self.points[0])
-        hull.append(self.points[1])
+        hull = [self.points[0], self.points[1]]
 
-        for i in range(2, n):
+        for i in range(2, len(self.points)):
             while len(hull) > 1 and self.orientation(hull[-2], hull[-1], self.points[i]) != 2:
                 hull.pop()
             hull.append(self.points[i])
@@ -69,7 +63,7 @@ class GrahamConvexHull:
         else:
             return 2  # counterclockwise
 
-
+# Example usage:
 def graham(screen):
     pygame.init()
     # Create points
@@ -80,8 +74,10 @@ def graham(screen):
 
     graham_hull.graham_scan()
 
-    graham(screen)
-    while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
+# Example usage:
+# screen_size = (800, 600)
+# screen = pygame.display.set_mode(screen_size)
+# pygame.display.set_caption('Graham Scan Visualization')
+# screen.fill((0, 0, 100))  # Use the menu screen color
+# graham(screen)
+# pygame.quit()
