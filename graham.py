@@ -66,6 +66,7 @@ class GrahamConvexHull:
 # Example usage:
 def graham(screen):
     pygame.init()
+    screen.fill((61,12,7))
     # Create points
     points = [po.Point(r.randint(100, 768), r.randint(100, 768)) for _ in range(20)]
 

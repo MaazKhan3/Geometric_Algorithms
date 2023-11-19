@@ -5,7 +5,8 @@ import graham as g
 import brute as b
 import chan as c
 import quick as q
-
+import Method_01 as m1
+import Method_02 as m2
 # Initialize Pygame
 pygame.init()
 
@@ -75,13 +76,17 @@ def intersect_menu():
 
         method1_button = pygame.Rect(WIDTH // 2 - BUTTON_WIDTH // 2, 200, BUTTON_WIDTH, BUTTON_HEIGHT)
         method2_button = pygame.Rect(WIDTH // 2 - BUTTON_WIDTH // 2, 300, BUTTON_WIDTH, BUTTON_HEIGHT)
+        method3_button = pygame.Rect(WIDTH // 2 - BUTTON_WIDTH // 2, 400, BUTTON_WIDTH, BUTTON_HEIGHT)
 
         pygame.draw.rect(screen, WHITE, method1_button)
         pygame.draw.rect(screen, WHITE, method2_button)
+        pygame.draw.rect(screen, WHITE, method3_button)
 
         draw_text("METHOD 1", small_font, BLACK, method1_button.x + 10, method1_button.y + 15)
         draw_text("METHOD 2", small_font, BLACK, method2_button.x + 10, method2_button.y + 15)
+        draw_text("METHOD 3", small_font, BLACK, method3_button.x + 10, method3_button.y + 15)
 
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -90,11 +95,17 @@ def intersect_menu():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if method1_button.collidepoint(event.pos):
                     # Implement actions for method 1
-                    pass  # Placeholder for now
+                    #pass  # Placeholder for now
+                    screen.fill(BLACK)
+                    m1.m1(screen)
                 elif method2_button.collidepoint(event.pos):
                     # Implement actions for method 2
+                    #pass  # Placeholder for now
+                    screen.fill(BLACK)
+                    m2.m2(screen)
+                elif method3_button.collidepoint(event.pos):
+                    # Implement actions for method 2
                     pass  # Placeholder for now
-
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE:
                     return  # return from intersect_menu function to exit the loop and go back to the main_menu loop

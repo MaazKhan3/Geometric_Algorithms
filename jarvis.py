@@ -90,7 +90,7 @@ def jarvis(screen):
     
     
         # Draw points
-        screen.fill((0, 0, 0))
+        screen.fill((61,12,7))
         for p in points:
             p.draw(screen)
         # Find and draw convex hull in real-time

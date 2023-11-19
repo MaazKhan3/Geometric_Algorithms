@@ -55,20 +55,20 @@ class ChanConvexHull:
 def chan(screen):
     width, height = 1366, 768
     screen = pygame.display.set_mode((width, height))
-    pygame.display.set_caption("Chan's Algo Visualization")
+    #pygame.display.set_caption("Chan's Algo Visualization")
 
     # Generate random points
     points = [po.Point(random.randint(50, width - 50), random.randint(50, height - 50)) for _ in range(20)]
 
     chan_hull = ChanConvexHull(points)
 
+    screen.fill((61,12,7))
     running = True
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
 
-        #screen.fill((0, 0, 0))
 
         for point in points:
             point.draw(screen)

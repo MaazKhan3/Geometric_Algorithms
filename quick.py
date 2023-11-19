@@ -28,7 +28,7 @@ class QuickHull:
             p.draw(screen)
 
         pygame.display.flip()
-        pygame.time.delay(1000)  # Adjust the delay as needed
+        pygame.time.delay(500)  # Adjust the delay as needed
 
         # Find the leftmost and rightmost points
         min_x, max_x = float('inf'), float('-inf')
@@ -78,7 +78,7 @@ class QuickHull:
         self.draw_hull_lines(screen, color=(255, 255, 255))
         farthest_point.draw(screen, color=(255, 0, 0))
         pygame.display.flip()
-        pygame.time.delay(1000)  # Adjust the speed of visualization
+        pygame.time.delay(500)  # Adjust the speed of visualization
 
         # Recursively find the convex hull on each side of the line
         self.find_hull_recursive(p1, farthest_point, points_left, screen)
@@ -89,10 +89,10 @@ class QuickHull:
             for i in range(len(self.hull) - 1):
                 self.draw_line(screen, self.hull[i], self.hull[i + 1], color)
                 pygame.display.flip()
-                pygame.time.delay(1000)  # Adjust the speed of visualization
+                pygame.time.delay(500)  # Adjust the speed of visualization
             self.draw_line(screen, self.hull[-1], self.hull[0], color)
             pygame.display.flip()
-            pygame.time.delay(1000)  # Adjust the speed of visualization
+            pygame.time.delay(500)  # Adjust the speed of visualization
         else:
             print("Convex hull not found.")
 
