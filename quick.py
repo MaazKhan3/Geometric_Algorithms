@@ -1,15 +1,6 @@
 import pygame
 import random
 
-class Point:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-        self.radius = 6
-
-    def draw(self, screen, color=(255, 255, 255)):
-        pygame.draw.circle(screen, color, (self.x, self.y), self.radius)
-
 class QuickHull:
     def __init__(self, points):
         self.points = points
