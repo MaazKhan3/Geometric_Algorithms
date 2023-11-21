@@ -1,43 +1,27 @@
 import pygame
 import numpy as np
 
-def findIntersection(line1, line2):
-    x1, y1 = line1[0]
-    x2, y2 = line1[1]
-    x3, y3 = line2[0]
-    x4, y4 = line2[1]
+def ccw(A, B, C):
+    return (C[1] - A[1]) * (B[0] - A[0]) > (B[1] - A[1]) * (C[0] - A[0])
 
-    denominator = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
-    if np.isclose(denominator, 0):
-        return None
+def doIntersect(line1, line2):
+    A, B = line1
+    C, D = line2
 
-    intersection_x = ((x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4)) / denominator
-    intersection_y = ((x1 * y2 - y1 * x2) * (y3 - y4) - (y1 - y2) * (x3 * y4 - y3 * x4)) / denominator
+    return ccw(A, C, D) != ccw(B, C, D) and ccw(A, B, C) != ccw(A, B, D)
 
-    intersection_point = np.array([intersection_x, intersection_y])
-
-    if (
-        min(x1, x2) <= intersection_x <= max(x1, x2) and
-        min(y1, y2) <= intersection_y <= max(y1, y2) and
-        min(x3, x4) <= intersection_x <= max(x3, x4) and
-        min(y3, y4) <= intersection_y <= max(y3, y4)
-    ):
-        return intersection_point
-    else:
-        return None
-
-def drawLines(screen, line, color):
+def visualizeLines(screen, line, color):
+    # Draw endpoints of Line
     pygame.draw.circle(screen, color, line[0], 5)
     pygame.display.flip()
     pygame.time.delay(500)
 
     pygame.draw.circle(screen, color, line[1], 5)
-    pygame.draw.line(screen, color, line[0], line[1], 2)
     pygame.display.flip()
     pygame.time.delay(500)
 
-def drawIntersectionPoint(screen, intersection_point):
-    pygame.draw.circle(screen, (255, 0, 0), intersection_point.astype(int), 5)
+    # Draw Line
+    pygame.draw.line(screen, color, line[0], line[1], 2)
     pygame.display.flip()
     pygame.time.delay(500)
 
@@ -53,9 +37,9 @@ def randomize_line(screen_width, screen_height):
     y1 = np.random.randint(50, screen_height - 50)
     x2 = np.random.randint(screen_width // 2 + 50, screen_width - 50)
     y2 = np.random.randint(50, screen_height - 50)
-    return np.array([[x1, y1], [x2, y2]])
+    return (np.array([x1, y1]), np.array([x2, y2]))
 
-def m1(screen):
+def m3(screen):
     screen_width, screen_height = 1366, 768
 
     while True:
@@ -67,12 +51,12 @@ def m1(screen):
         line2 = randomize_line(screen_width, screen_height)
 
         # Draw Line 1
-        drawLines(screen, line1, (255, 255, 255))
+        visualizeLines(screen, line1, (255, 255, 255))
 
         # Draw Line 2
-        drawLines(screen, line2, (255, 255, 255))
+        visualizeLines(screen, line2, (255, 255, 255))
 
-        intersection_point = findIntersection(line1, line2)
+        intersection = doIntersect(line1, line2)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -83,16 +67,16 @@ def m1(screen):
                 if event.key == pygame.K_BACKSPACE:
                     return  # Return from the function to go back to the menu
 
-        if intersection_point is not None:
+        if intersection:
+            intersection_point = line1[0] + (line1[1] - line1[0]) * np.random.rand()
             intersection_text = f'Intersection Point: ({int(intersection_point[0])}, {int(intersection_point[1])})'
             print("Lines intersect at:", intersection_point)
             drawText(screen, 'Lines intersect', (50, 50))
             drawText(screen, intersection_text, (50, 80))
-            drawIntersectionPoint(screen, intersection_point)
         else:
             print("Lines do not intersect.")
             drawText(screen, 'Lines do not intersect', (50, 50))
 
         pygame.display.flip()
         pygame.time.delay(2000)  # Display result for 2 seconds
-        pygame.time.delay(500)  # Delay before the next iteration
+        pygame.time.delay(500)  # Delay before next iteration

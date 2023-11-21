@@ -35,7 +35,7 @@ class GrahamConvexHull:
             hull.append(self.points[i])
 
             # Draw the current state of the convex hull
-            self.screen.fill((0, 0, 0))
+            self.screen.fill((61,12,7))
             for point in self.points:
                 point.draw(self.screen)
 

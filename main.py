@@ -5,12 +5,14 @@ import graham as g
 import brute as b
 import chan as c
 import quick as q
+import monotone as m
 import Method_01 as m1
 import Method_02 as m2
+import Method_03 as m3
 # Initialize Pygame
 pygame.init()
 
-# Constants
+# Constants-+
 WIDTH, HEIGHT = 1366, 768
 BUTTON_WIDTH, BUTTON_HEIGHT = 300, 75
 PADDING = 20
@@ -104,7 +106,9 @@ def intersect_menu():
                     screen.fill(BLACK)
                     m2.m2(screen)
                 elif method3_button.collidepoint(event.pos):
-                    # Implement actions for method 2
+                    # Implement actions for method
+                    screen.fill(BLACK)
+                    m3.m3(screen) 
                     pass  # Placeholder for now
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE:
@@ -118,7 +122,7 @@ def convex_menu():
         
         draw_text("Choose Method for Convex Hull", font, WHITE, 50, 50)
 
-        methods = ["BRUTE FORCE", "JARVIS MARCH", "GRAHAM SCAN", "QUICK ELIMINATION", "CHAN'S ALGORITHM"]
+        methods = ["BRUTE FORCE", "JARVIS MARCH", "GRAHAM SCAN", "QUICK ELIMINATION", "CHAN'S ALGORITHM","MONOTONE'S ALGORITHM"]
         buttons = []
 
         for i, method in enumerate(methods):
@@ -155,6 +159,10 @@ def convex_menu():
                         elif i == 4:
                             screen.fill((61,12,7))
                             c.chan(screen)
+                            pass  # Placeholder for Chan Algorithm
+                        elif i == 5:
+                            screen.fill((61,12,7))
+                            m.monotone(screen)
                             pass  # Placeholder for Chan Algorithm
 
             if event.type == pygame.KEYDOWN:

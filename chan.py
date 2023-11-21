@@ -26,7 +26,7 @@ class ChanConvexHull:
 
             current = next_point
 
-            screen.fill((0, 0, 0))
+            screen.fill((61,12,7))
             for point in self.points:
                 point.draw(screen)
 
@@ -44,7 +44,7 @@ class ChanConvexHull:
         return hull
 
     def orientation(self, p, q, r):
-        val = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y)
+        val = (q.x - p.x) * (r.y - q.y) - (q.y - p.y) * (r.x - q.x)
         if val == 0:
             return 0  # collinear
         elif val > 0:
