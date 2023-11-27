@@ -9,10 +9,10 @@ import monotone as m
 import Method_01 as m1
 import Method_02 as m2
 import Method_03 as m3
-# Initialize Pygame
+
 pygame.init()
 
-# Constants-+
+# Constants
 WIDTH, HEIGHT = 1366, 768
 BUTTON_WIDTH, BUTTON_HEIGHT = 300, 75
 PADDING = 20
@@ -24,7 +24,6 @@ GRAY = (150, 150, 150)
 RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 
-# Set up the display
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Algorithm Menu")
 
@@ -39,20 +38,65 @@ def draw_text(text, font, color, x, y):
     text_rect.topleft = (x, y)
     screen.blit(text_surface, text_rect)
 
+def time_complexities_menu():
+    while True:
+        screen.fill((61, 12, 7))
+
+        draw_text("Time Complexities of Algorithms", font, WHITE, 50, 50)
+
+        algorithms_info = [
+            ("Brute Force Convex Hull", "O(n^3)"),
+            ("Jarvis March Convex Hull", "O(n^2)"),
+            ("Graham Scan Convex Hull", "O(n log n)"),
+            ("Quick Hull Convex Hull", "O(n log n)"),
+            ("Chan's Algorithm Convex Hull", "O(n log n)"),
+            ("Monotone Chain Convex Hull", "O(n log n)"),
+            ("All Line Intersection Algorithms", "O(1)"),
+            #("Slope-Intercept Line Intersection", "O(1)"),
+            #("CCW Order Line Intersection", "O(1)"),
+        ]
+
+        buttons = []
+
+        for i, (algorithm, complexity) in enumerate(algorithms_info):
+            button = pygame.Rect(WIDTH // 2 - BUTTON_WIDTH // 2, 150 + (i * (BUTTON_HEIGHT + PADDING)), BUTTON_WIDTH, BUTTON_HEIGHT)
+            buttons.append(button)
+            pygame.draw.rect(screen, WHITE, button)
+            draw_text(f"{algorithm}: {complexity}", small_font, (61, 12, 7), button.x + 10, button.y + 2)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_BACKSPACE:
+                    return
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                for i, button in enumerate(buttons):
+                    if button.collidepoint(event.pos):
+
+                        
+
+                        pygame.display.update()
+
 def main_menu():
     while True:
-        screen.fill((61,12,7))
-        draw_text("DESIGN AND ANALYSIS OF ALGORITHMS", font, WHITE, 450,60)
-        print(pygame.mouse.get_pos())
+        screen.fill((61, 12, 7))
+        draw_text("DESIGN AND ANALYSIS OF ALGORITHMS", font, WHITE, 450, 60)
+
         intersect_button = pygame.Rect(WIDTH // 2 - BUTTON_WIDTH // 2, 200, BUTTON_WIDTH, BUTTON_HEIGHT)
         convex_button = pygame.Rect(WIDTH // 2 - BUTTON_WIDTH // 2, 300, BUTTON_WIDTH, BUTTON_HEIGHT)
+        time_complexities_button = pygame.Rect(WIDTH // 2 - BUTTON_WIDTH // 2, 400, BUTTON_WIDTH, BUTTON_HEIGHT)
 
         pygame.draw.rect(screen, WHITE, intersect_button)
         pygame.draw.rect(screen, WHITE, convex_button)
+        pygame.draw.rect(screen, WHITE, time_complexities_button)
 
-        
         draw_text("INTERSECTING LINE SEGMENTS", small_font, BLACK, intersect_button.x + 20, intersect_button.y + 30)
         draw_text("CONVEX HULL SOLUTION", small_font, BLACK, convex_button.x + 20, convex_button.y + 30)
+        draw_text("TIME COMPLEXITIES", small_font, BLACK, time_complexities_button.x + 20, time_complexities_button.y + 30)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -64,6 +108,8 @@ def main_menu():
                     intersect_menu()
                 elif convex_button.collidepoint(event.pos):
                     convex_menu()
+                elif time_complexities_button.collidepoint(event.pos):
+                    time_complexities_menu()
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE:
@@ -84,9 +130,9 @@ def intersect_menu():
         pygame.draw.rect(screen, WHITE, method2_button)
         pygame.draw.rect(screen, WHITE, method3_button)
 
-        draw_text("METHOD 1", small_font, BLACK, method1_button.x + 10, method1_button.y + 15)
-        draw_text("METHOD 2", small_font, BLACK, method2_button.x + 10, method2_button.y + 15)
-        draw_text("METHOD 3", small_font, BLACK, method3_button.x + 10, method3_button.y + 15)
+        draw_text("Parametric Intersection", small_font, BLACK, method1_button.x + 10, method1_button.y + 15)
+        draw_text("Slope Intercept", small_font, BLACK, method2_button.x + 10, method2_button.y + 15)
+        draw_text("CCW Order", small_font, BLACK, method3_button.x + 10, method3_button.y + 15)
 
         
         for event in pygame.event.get():
@@ -96,23 +142,18 @@ def intersect_menu():
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if method1_button.collidepoint(event.pos):
-                    # Implement actions for method 1
-                    #pass  # Placeholder for now
-                    screen.fill(BLACK)
+                    #screen.fill(BLACK)
                     m1.m1(screen)
                 elif method2_button.collidepoint(event.pos):
-                    # Implement actions for method 2
-                    #pass  # Placeholder for now
-                    screen.fill(BLACK)
+                    #screen.fill(BLACK)
                     m2.m2(screen)
                 elif method3_button.collidepoint(event.pos):
-                    # Implement actions for method
-                    screen.fill(BLACK)
+                    #screen.fill(BLACK)
                     m3.m3(screen) 
-                    pass  # Placeholder for now
+                    pass  
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE:
-                    return  # return from intersect_menu function to exit the loop and go back to the main_menu loop
+                    return  
 
         pygame.display.update()
 
@@ -139,37 +180,35 @@ def convex_menu():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 for i, button in enumerate(buttons):
                     if button.collidepoint(event.pos):
-                        # Implement actions for each method
+                      
                         if i == 0:
                             screen.fill((61,12,7))
                             b.brute_force(screen)
-                            pass  # Placeholder for brute force
+                            pass  
                         elif i == 1:
                             screen.fill((61,12,7))
                             j.jarvis(screen)
-                            pass  # Placeholder for Jarvis March
+                            pass  
                         elif i == 2:
                             screen.fill((61,12,7))
                             g.graham(screen)
-                            pass  # Placeholder for Graham Scan
+                            pass  
                         elif i == 3:
                             screen.fill((61,12,7))
                             q.quick_hull(screen)
-                            pass  # Placeholder for Quick Elimination
+                            pass
                         elif i == 4:
                             screen.fill((61,12,7))
                             c.chan(screen)
-                            pass  # Placeholder for Chan Algorithm
+                            pass  
                         elif i == 5:
                             screen.fill((61,12,7))
                             m.monotone(screen)
-                            pass  # Placeholder for Chan Algorithm
+                            pass  
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE:
-                    return  # return from convex_menu function to exit the loop and go back to the main_menu loop
-
+                    return  
         pygame.display.update()
 
-# Run the main menu
 main_menu()

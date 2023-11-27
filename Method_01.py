@@ -62,7 +62,6 @@ def m1(screen):
         screen.fill((61, 12, 7))
         pygame.display.flip()
 
-        # Randomize endpoints of Line 1 and Line 2
         line1 = randomize_line(screen_width, screen_height)
         line2 = randomize_line(screen_width, screen_height)
 
@@ -81,7 +80,7 @@ def m1(screen):
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE:
-                    return  # Return from the function to go back to the menu
+                    return  
 
         if intersection_point is not None:
             intersection_text = f'Intersection Point: ({int(intersection_point[0])}, {int(intersection_point[1])})'
@@ -94,5 +93,5 @@ def m1(screen):
             drawText(screen, 'Lines do not intersect', (50, 50))
 
         pygame.display.flip()
-        pygame.time.delay(2000)  # Display result for 2 seconds
-        pygame.time.delay(500)  # Delay before the next iteration
+        pygame.time.delay(2000)  
+        pygame.time.delay(500)  

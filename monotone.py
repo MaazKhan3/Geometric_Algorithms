@@ -20,7 +20,6 @@ class QuickHull:
             print("Convex hull is not possible with less than 3 points.")
             return
 
-        # Sort points by x-coordinate for initial visualization
         self.points.sort(key=lambda p: p.x)
 
         # Draw all points initially
@@ -28,7 +27,7 @@ class QuickHull:
             p.draw(screen)
 
         pygame.display.flip()
-        pygame.time.delay(500)  # Adjust the delay as needed
+        pygame.time.delay(500) 
 
         # Find the leftmost and rightmost points
         min_x, max_x = float('inf'), float('-inf')
@@ -44,11 +43,10 @@ class QuickHull:
         self.hull.append(leftmost)
         self.hull.append(rightmost)
 
-        # Split the points into two sets based on which side of the line they lie
         points_left = [point for point in self.points if self.orientation(leftmost, rightmost, point) == 1]
         points_right = [point for point in self.points if self.orientation(leftmost, rightmost, point) == -1]
 
-        # Recursively find the convex hull on each side of the line
+
         self.find_hull_recursive(leftmost, rightmost, points_left, screen)
         self.find_hull_recursive(rightmost, leftmost, points_right, screen)
 
@@ -58,7 +56,7 @@ class QuickHull:
         if not points:
             return
 
-        # Find the point with the maximum distance from the line formed by p1 and p2
+
         max_distance = 0
         farthest_point = None
         for point in points:
@@ -67,22 +65,19 @@ class QuickHull:
                 max_distance = current_distance
                 farthest_point = point
 
-        # Add the farthest point to the convex hull
+       
         self.hull.insert(self.hull.index(p2), farthest_point)
-
-        # Split the points into two sets based on which side of the line they lie
+        
         points_left = [point for point in points if self.orientation(p1, farthest_point, point) == 1]
         points_right = [point for point in points if self.orientation(farthest_point, p2, point) == 1]
 
-        # Recursively find the convex hull on each side of the line
         self.find_hull_recursive(p1, farthest_point, points_left, screen)
         self.find_hull_recursive(farthest_point, p2, points_right, screen)
 
-        # Draw the current step
         self.draw_hull_lines(screen, color=(255, 255, 255))
         farthest_point.draw(screen, color=(255, 0, 0))
         pygame.display.flip()
-        pygame.time.delay(500)  # Adjust the speed of visualization
+        pygame.time.delay(500)
 
 
     def draw_hull_lines(self, screen, color=(255, 255, 255)):
@@ -90,10 +85,10 @@ class QuickHull:
             for i in range(len(self.hull) - 1):
                 self.draw_line(screen, self.hull[i], self.hull[i + 1], color)
                 pygame.display.flip()
-                pygame.time.delay(500)  # Adjust the speed of visualization
+                pygame.time.delay(500)  
             self.draw_line(screen, self.hull[-1], self.hull[0], color)
             pygame.display.flip()
-            pygame.time.delay(500)  # Adjust the speed of visualization
+            pygame.time.delay(500) 
         else:
             print("Convex hull not found.")
 
@@ -112,23 +107,13 @@ class QuickHull:
         return abs((p.y - p1.y) * (p2.x - p1.x) - (p2.y - p1.y) * (p.x - p1.x)) / (
                     (p2.y - p1.y) ** 2 + (p2.x - p1.x) ** 2) ** 0.5
 
-# Example usage:
 def monotone(screen):
     pygame.init()
 
-    # Create random points
     num_points = 20
     points = [Point(random.randint(50, 750), random.randint(50, 550)) for _ in range(num_points)]
 
-    # Create QuickHull object
     quick_hull_instance = QuickHull(points)
 
-    # Find and draw convex hull
     convex_hull = quick_hull_instance.find_hull(screen)
 
-# Example usage:
-#screen_size = (800, 600)
-#screen = pygame.display.set_mode(screen_size)
-#pygame.display.set_caption('QuickHull Visualization')
-#quick_hull(screen)
-#pygame.quit()

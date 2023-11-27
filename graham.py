@@ -63,11 +63,11 @@ class GrahamConvexHull:
         else:
             return 2  # counterclockwise
 
-# Example usage:
+
 def graham(screen):
     pygame.init()
     screen.fill((61,12,7))
-    # Create points
+
     points = [po.Point(r.randint(100, 768), r.randint(100, 768)) for _ in range(20)]
 
     graham_hull = GrahamConvexHull(points)
@@ -75,10 +75,3 @@ def graham(screen):
 
     graham_hull.graham_scan()
 
-# Example usage:
-# screen_size = (800, 600)
-# screen = pygame.display.set_mode(screen_size)
-# pygame.display.set_caption('Graham Scan Visualization')
-# screen.fill((0, 0, 100))  # Use the menu screen color
-# graham(screen)
-# pygame.quit()

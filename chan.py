@@ -67,7 +67,12 @@ def chan(screen):
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                pygame.quit()
+                exit()
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_BACKSPACE:
+                    return  
 
 
         for point in points:
@@ -76,5 +81,7 @@ def chan(screen):
         chan_convex_hull = chan_hull.convex_hull(len(points), screen)
 
         pygame.display.flip()
+        pygame.time.delay(2000) 
+        pygame.time.delay(500)  
 
     pygame.quit()

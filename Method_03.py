@@ -65,7 +65,7 @@ def m3(screen):
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE:
-                    return  # Return from the function to go back to the menu
+                    return  
 
         if intersection:
             intersection_point = line1[0] + (line1[1] - line1[0]) * np.random.rand()
@@ -78,5 +78,5 @@ def m3(screen):
             drawText(screen, 'Lines do not intersect', (50, 50))
 
         pygame.display.flip()
-        pygame.time.delay(2000)  # Display result for 2 seconds
-        pygame.time.delay(500)  # Delay before next iteration
+        pygame.time.delay(2000) 
+        pygame.time.delay(500) 

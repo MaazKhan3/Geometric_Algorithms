@@ -1,39 +1,52 @@
 import pygame
 import numpy as np
 
-def findIntersection(line1, line2):
-    p1, q1 = line1
-    p2, q2 = line2
+def findIntersectionSlopeIntercept(line1, line2):
+    def slope_intercept(line):
+        point1, point2 = line
+        if point1[0] == point2[0]:
+            # Vertical line, slope is undefined
+            return None, None
+        m = (point2[1] - point1[1]) / (point2[0] - point1[0])
+        c = point1[1] - m * point1[0]
+        return m, c
 
-    def orientation(p, q, r):
-        val = (q[1] - p[1]) * (r[0] - q[0]) - (q[0] - p[0]) * (r[1] - q[1])
-        if val == 0:
-            return 0
-        elif val > 0:
-            return 1
+    m1, c1 = slope_intercept(line1)
+    m2, c2 = slope_intercept(line2)
+
+    if m1 is None and m2 is None:
+        # Both lines are vertical, check if they are coincident
+        if line1[0][0] == line2[0][0]:
+            return True, (line1[0][0], max(min(line1[0][1], line1[1][1]), min(line2[0][1], line2[1][1])))
         else:
-            return 2
+            return False, None
+    elif m1 is None or m2 is None or m1 != m2:
+        # Lines are not parallel, find point of intersection
+        if m1 is None:
+            x_intersection = line1[0][0]
+            y_intersection = m2 * x_intersection + c2
+        elif m2 is None:
+            x_intersection = line2[0][0]
+            y_intersection = m1 * x_intersection + c1
+        else:
+            x_intersection = (c2 - c1) / (m1 - m2)
+            y_intersection = m1 * x_intersection + c1
 
-    o1 = orientation(p1, q1, p2)
-    o2 = orientation(p1, q1, q2)
-    o3 = orientation(p2, q2, p1)
-    o4 = orientation(p2, q2, q1)
-
-    if o1 != o2 and o3 != o4:
-        # Calculate the intersection point
-        den = (q2[1] - p2[1]) * (q1[0] - p1[0]) - (q2[0] - p2[0]) * (q1[1] - p1[1])
-        num1 = (q2[0] - p2[0]) * (p1[1] - p2[1]) - (q2[1] - p2[1]) * (p1[0] - p2[0])
-        num2 = (q1[0] - p1[0]) * (p1[1] - p2[1]) - (q1[1] - p1[1]) * (p1[0] - p2[0])
-
-        if den != 0:
-            t = num1 / den
-            intersection_point = p1 + t * (q1 - p1)
-            return intersection_point
-
-    return None
+        # Check if the intersection point is within the line segments
+        if (
+            min(line1[0][0], line1[1][0]) <= x_intersection <= max(line1[0][0], line1[1][0]) and
+            min(line2[0][0], line2[1][0]) <= x_intersection <= max(line2[0][0], line2[1][0]) and
+            min(line1[0][1], line1[1][1]) <= y_intersection <= max(line1[0][1], line1[1][1]) and
+            min(line2[0][1], line2[1][1]) <= y_intersection <= max(line2[0][1], line2[1][1])
+        ):
+            return True, (x_intersection, y_intersection)
+        else:
+            return False, None
+    else:
+        # Lines are parallel and not coincident
+        return False, None
 
 def visualizeLines(screen, line, color):
-    # Draw endpoints of Line
     pygame.draw.circle(screen, color, line[0], 5)
     pygame.display.flip()
     pygame.time.delay(500)
@@ -42,43 +55,22 @@ def visualizeLines(screen, line, color):
     pygame.display.flip()
     pygame.time.delay(500)
 
-    # Draw Line
     pygame.draw.line(screen, color, line[0], line[1], 2)
     pygame.display.flip()
     pygame.time.delay(500)
 
-def drawText(screen, text, position):
-    pygame.font.init()
-    font = pygame.font.SysFont(None, 30)
-    text_surface = font.render(text, True, (255, 255, 255))
-    screen.blit(text_surface, position)
-    pygame.display.flip()
-
-def randomize_line(screen_width, screen_height):
-    x1 = np.random.randint(50, screen_width // 2 - 50)
-    y1 = np.random.randint(50, screen_height - 50)
-    x2 = np.random.randint(screen_width // 2 + 50, screen_width - 50)
-    y2 = np.random.randint(50, screen_height - 50)
-    return (np.array([x1, y1]), np.array([x2, y2]))
-
 def m2(screen):
-    screen_width, screen_height = 1366, 768
-
     while True:
         screen.fill((61, 12, 7))
         pygame.display.flip()
 
-        # Randomize endpoints of Line 1 and Line 2
-        line1 = randomize_line(screen_width, screen_height)
-        line2 = randomize_line(screen_width, screen_height)
+        line1 = (np.array([100, 100]), np.array([500, 500]))
+        line2 = (np.array([100, 500]), np.array([500, 100]))
 
-        # Draw Line 1
         visualizeLines(screen, line1, (255, 255, 255))
-
-        # Draw Line 2
         visualizeLines(screen, line2, (255, 255, 255))
 
-        intersection_point = findIntersection(line1, line2)
+        intersect, intersection_point = findIntersectionSlopeIntercept(line1, line2)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -87,17 +79,22 @@ def m2(screen):
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE:
-                    return  # Return from the function to go back to the menu
+                    return
 
-        if intersection_point is not None:
-            intersection_text = f'Intersection Point: ({int(intersection_point[0])}, {int(intersection_point[1])})'
-            print("Lines intersect at:", intersection_point)
-            drawText(screen, 'Lines intersect', (50, 50))
-            drawText(screen, intersection_text, (50, 80))
+        if intersect:
+            print("Lines intersect at point:", intersection_point)
+            pygame.font.init()
+            font = pygame.font.SysFont(None, 30)
+            text = font.render(f'Lines intersect at {intersection_point}', True, (255, 255, 255))
+            screen.blit(text, (50, 50))
+            pygame.display.flip()
         else:
             print("Lines do not intersect.")
-            drawText(screen, 'Lines do not intersect', (50, 50))
+            pygame.font.init()
+            font = pygame.font.SysFont(None, 30)
+            text = font.render('Lines do not intersect', True, (255, 255, 255))
+            screen.blit(text, (50, 50))
+            pygame.display.flip()
 
-        pygame.display.flip()
-        pygame.time.delay(2000)  # Display result for 2 seconds
-        pygame.time.delay(500)  # Delay before next iteration
+        pygame.time.delay(2000)
+        pygame.time.delay(500)

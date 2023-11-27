@@ -78,7 +78,7 @@ class QuickHull:
         self.draw_hull_lines(screen, color=(255, 255, 255))
         farthest_point.draw(screen, color=(255, 0, 0))
         pygame.display.flip()
-        pygame.time.delay(500)  # Adjust the speed of visualization
+        pygame.time.delay(500) 
 
         # Recursively find the convex hull on each side of the line
         self.find_hull_recursive(p1, farthest_point, points_left, screen)
@@ -89,10 +89,10 @@ class QuickHull:
             for i in range(len(self.hull) - 1):
                 self.draw_line(screen, self.hull[i], self.hull[i + 1], color)
                 pygame.display.flip()
-                pygame.time.delay(500)  # Adjust the speed of visualization
+                pygame.time.delay(500)  
             self.draw_line(screen, self.hull[-1], self.hull[0], color)
             pygame.display.flip()
-            pygame.time.delay(500)  # Adjust the speed of visualization
+            pygame.time.delay(500)  
         else:
             print("Convex hull not found.")
 
@@ -111,23 +111,21 @@ class QuickHull:
         return abs((p.y - p1.y) * (p2.x - p1.x) - (p2.y - p1.y) * (p.x - p1.x)) / (
                     (p2.y - p1.y) ** 2 + (p2.x - p1.x) ** 2) ** 0.5
 
-# Example usage:
 def quick_hull(screen):
     pygame.init()
 
-    # Create random points
     num_points = 20
     points = [Point(random.randint(50, 750), random.randint(50, 550)) for _ in range(num_points)]
 
-    # Create QuickHull object
     quick_hull_instance = QuickHull(points)
 
-    # Find and draw convex hull
     convex_hull = quick_hull_instance.find_hull(screen)
 
-# Example usage:
-#screen_size = (800, 600)
-#screen = pygame.display.set_mode(screen_size)
-#pygame.display.set_caption('QuickHull Visualization')
-#quick_hull(screen)
-#pygame.quit()
+    for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_BACKSPACE:
+                    return  

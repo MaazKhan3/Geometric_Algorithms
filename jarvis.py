@@ -1,6 +1,5 @@
 import point as po
 import pygame
-import sys
 import random as r
 
 class ConvexHull:
@@ -46,7 +45,7 @@ class ConvexHull:
                              (self.points[p].x, self.points[p].y),
                              (self.points[q].x, self.points[q].y), 2)
             pygame.display.flip()
-            pygame.time.delay(500)  # Adjust the delay as needed
+            pygame.time.delay(500) 
 
             p = q
             if p == l:
@@ -57,44 +56,43 @@ class ConvexHull:
             pygame.draw.line(screen, (255, 255, 255), (self.points[self.hull[i]].x, self.points[self.hull[i]].y),
                              (self.points[self.hull[i + 1]].x, self.points[self.hull[i + 1]].y), 2)
             pygame.display.flip()
-            pygame.time.delay(500)  # Adjust the delay as needed
+            pygame.time.delay(500) 
         pygame.draw.line(screen, (255, 255, 255), (self.points[self.hull[-1]].x, self.points[self.hull[-1]].y),
                          (self.points[self.hull[0]].x, self.points[self.hull[0]].y), 2)
         pygame.display.flip()
-        pygame.time.delay(500)  # Adjust the delay as needed
+        pygame.time.delay(500)  
 
 
 def jarvis(screen):
     pygame.init()
-    # Set up the screen
-    
-    
     # Create points
     #points = [po.Point(500, 300), po.Point(400, 400), po.Point(300, 100), po.Point(200, 200), po.Point(300, 220), po.Point(50, 50), po.Point(300, 300)]
     points = []
     for a in range (0,20):
         points.append(po.Point(r.randint(100, 768-100),r.randint(100, 768-100)))
 
-
-    # Create ConvexHull object
     convex_hull = ConvexHull(points)
-    
-    # Main loop
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-                sys.exit()
+                exit()
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_BACKSPACE:
+                    return  
 
  
     
-    
-        # Draw points
+
         screen.fill((61,12,7))
         for p in points:
             p.draw(screen)
-        # Find and draw convex hull in real-time
+
         convex_hull.find_convex_hull(screen)
         convex_hull.draw_convex_hull(screen)
     
         pygame.display.flip()
+        pygame.time.delay(2000)  
+        pygame.time.delay(500)  

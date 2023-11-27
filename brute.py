@@ -29,12 +29,12 @@ class ConvexHull:
         if n < 3:
             return
 
-        # Draw all points initially
+       
         for p in self.points:
             p.draw(screen)
 
         pygame.display.flip()
-        pygame.time.delay(1000)  # Adjust the delay as needed
+        pygame.time.delay(1000)  
 
         for p in range(n):
             for q in range(n):
@@ -46,22 +46,22 @@ class ConvexHull:
                                                  (self.points[p].x, self.points[p].y),
                                                  (self.points[q].x, self.points[q].y), 2)
                                 pygame.display.flip()
-                                pygame.time.delay(100)  # Adjust the delay as needed
+                                pygame.time.delay(100)  
 
-        pygame.time.delay(1000)  # Adjust the delay as needed
+        pygame.time.delay(1000)  
 
     def draw_convex_hull(self, screen):
         for i in range(len(self.hull) - 1):
             pygame.draw.line(screen, (249, 222, 201), (self.points[self.hull[i]].x, self.points[self.hull[i]].y),
                              (self.points[self.hull[i + 1]].x, self.points[self.hull[i + 1]].y), 2)
             pygame.display.flip()
-            pygame.time.delay(100)  # Adjust the delay as needed
+            pygame.time.delay(100) 
         pygame.draw.line(screen, (249, 222, 201), (self.points[self.hull[-1]].x, self.points[self.hull[-1]].y),
                          (self.points[self.hull[0]].x, self.points[self.hull[0]].y), 2)
         pygame.display.flip()
-        pygame.time.delay(100)  # Adjust the delay as needed
+        pygame.time.delay(100) 
 
-# Example usage:
+
 def brute_force(screen):
     pygame.init()
     
@@ -78,19 +78,17 @@ def brute_force(screen):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-                sys.exit()
+                exit()
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_BACKSPACE:
+                    return  
 
         # Draw points
         for p in points:
             p.draw(screen)
 
-        # Find and draw convex hull using brute force in real-time
         convex_hull.find_convex_hull_bruteforce(screen)
-
-# Example usage:
-# screen_size = (800, 600)
-# screen = pygame.display.set_mode(screen_size)
-# pygame.display.set_caption('Convex Hull (Brute Force) Visualization')
-# screen.fill((0, 0, 100))  # Use the menu screen color
-# brute_force(screen)
-# pygame.quit()
+        pygame.display.flip()
+        pygame.time.delay(2000)  
+        pygame.time.delay(500)  
